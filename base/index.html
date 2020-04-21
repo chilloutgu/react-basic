@@ -8,15 +8,16 @@
       crossorigin
       src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
     ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   </head>
   <body>
     <!-- <div id="root"><button>Like</button></div> -->
     <div id="root"></div>
-    <script>
+    <script type="text/babel">
       /*
         html 태그를 만들어 주는 함수
       */
-      const e = React.createElement;
+      // const e = React.createElement;
 
       /*
         class를 통해 React 컴포넌트 만들기
@@ -35,30 +36,53 @@
         }
 
         /*
-            화면에 랜더링 해주는 함수, 
+            화면에 랜더링 해주는 함수,
             render() => React의 element를 return해준다!
         */
         render() {
-          return e(
-            "button",
-            {
-              onClick: () => {
-                this.setState({
-                  liked: true,
-                });
+          return (
+            <button
+              type="submit"
+              onClick={() => {
+                this.setState({ liked: true });
+              }}
+            >
+              {this.state.liked ? "liked" : "like"}
+            </button>
+          );
+
+          /*
+
+            e(
+              "button",
+              {
+                onClick: () => {
+                  this.setState({
+                    liked: true,
+                  });
+                },
+                type: "submit",
               },
-              type: "submit",
-            },
-            this.state.liked ? "liked" : "like"
-          ); // <button type="submit" onClick= () => console.log("clicked")>Like</button> 태그가 생성된다!
+              this.state.liked ? "liked" : "like"
+            ); // <button type="submit" onClick= () => console.log("clicked")>Like</button> 태그가 생성된다!
+
+          */
         }
       }
     </script>
-    <script>
+    <script type="text/babel">
       /*
         ReactDOM을 통해 React 컴포넌트가 html 상에서 랜더링 된다.
         */
-      ReactDOM.render(e(LikeButton), document.querySelector("#root"));
+      ReactDOM.render(
+        <div>
+          <LikeButton />
+          <LikeButton />
+          <LikeButton />
+          <LikeButton />
+        </div>,
+        document.querySelector("#root")
+      );
     </script>
   </body>
 </html>
