@@ -39,17 +39,15 @@
             this.state.first * this.state.second
           ) {
             this.setState({
-              result: "딩동댕",
+              result: "=" + this.state.first * this.state.second + " 딩동댕",
               first: Math.ceil(Math.random() * 9),
               second: Math.ceil(Math.random() * 9),
               value: "",
-              resultValue: "=" + this.state.first * this.state.second + " ",
             });
           } else {
             this.setState({
               result: "땡!",
               value: "",
-              resultValue: "",
             });
           }
         };
@@ -82,10 +80,7 @@
                 />
                 <button type="submit">입력!</button>
               </form>
-              <div>
-                {this.state.resultValue}
-                {this.state.result}
-              </div>
+              <div>{this.state.result}</div>
             </div>
           );
         }
