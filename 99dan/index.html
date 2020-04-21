@@ -27,13 +27,46 @@
             second: Math.ceil(Math.random() * 9),
             value: "",
             result: "",
+            resultValue: "",
           };
         }
 
+        onSubmit = (e) => {
+          e.preventDefault();
+
+          if (
+            parseInt(this.state.value) ===
+            this.state.first * this.state.second
+          ) {
+            this.setState({
+              result: "딩동댕",
+              first: Math.ceil(Math.random() * 9),
+              second: Math.ceil(Math.random() * 9),
+              value: "",
+              resultValue: "=" + this.state.first * this.state.second + " ",
+            });
+          } else {
+            this.setState({
+              result: "땡!",
+              value: "",
+              resultValue: "",
+            });
+          }
+        };
+
+        onChange = (e) => {
+          this.setState({
+            value: e.target.value,
+          });
+        };
+
         /*
-            input.onChage = (e) => console.log(e.target.value) 
+            input.onChage = (e) => console.log(e.target.value)
             : 입력하는 값이 console에 찍힌다.
             target => event가 발생하는 element?
+            수동으로 변경할 값들에 대해서만 setter를 사용한다?
+            jsx와 js코드를 섞어쓰지마라
+            js코드는 method로 따로 빼놓고 불러쓰기
         */
         render() {
           return (
@@ -41,19 +74,18 @@
               <div>
                 {this.state.first}곱하기{this.state.second}는?{" "}
               </div>
-              <form>
+              <form onSubmit={this.onSubmit}>
                 <input
                   type="number"
                   value={this.state.value}
-                  onChange={(e) => {
-                    this.setState({
-                      value: e.target.value,
-                    });
-                  }}
+                  onChange={this.onChange}
                 />
-                <button>입력!</button>
+                <button type="submit">입력!</button>
               </form>
-              <div>{this.state.result}</div>
+              <div>
+                {this.state.resultValue}
+                {this.state.result}
+              </div>
             </div>
           );
         }
