@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>구구단</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      /*
+        GuGuDan 함수 컴포넌트 만들기 ( with hooks )
+        hooks란? 함수 컴포넌트에서는 불가능한 state를 사용할 수 있게 해준다. ( 기본적으로 )
+        state의 값을 변경할 때에는 무조건 setter 사용하도록.
+
+      */
+      const GuGuDan = () => {
+        /*
+          구조분해 문법
+
+        */
+        const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+        const [second, setSecond] = React.useState(
+          Math.ceil(Math.random() * 9)
+        );
+
+        const [value, setValue] = React.useState("");
+        const [result, setResult] = React.useState("");
+
+        const inputRef = React.useRef(null);
+
+        /*
+          컴포넌트에는 return이 무조건 있어야 한다!
+          input 태그는 반드시 form 태그로 감싸주자.
+          input 태그에는 onChange
+          submit 태그에는 onSubmit
+          button 태그에는 onClick
+
+          onSubmit과 onClick 중에 아무거나
+
+          ref는 DOM에 접근하기 위해 사용함.
+          ref를 사용할 때 current는 꼭 붙여주기.
+
+        */
+
+        const onSubmitForm = (event) => {
+          event.preventDefault();
+
+          if (parseInt(value) === first * second) {
+            setResult((prevResult) => {
+              return "정답 : " + value;
+            });
+            setFirst(Math.ceil(Math.random() * 9));
+            setSecond(Math.ceil(Math.random() * 9));
+            setValue("");
+            inputRef.current.focus();
+          } else {
+            setResult("땡!");
+            setValue("");
+            inputRef.current.focus();
+          }
+        };
+
+        const onChangeInput = (event) => {
+          setValue(event.target.value);
+        };
+
+        /*
+          hooks에서
+          state가 변하면 => 함수 전체가 다시 실행되므로
+          성능상 주의해야 함.
+          
+          반면 클래스 컴포넌트에서는
+          render()만 재실행.
+
+          React에서 태그들에 id와 class 속성값을 줄 수 있으나
+          class => className으로 사용해야 한다.
+          for => htmlFor
+        */
+        console.log("랜더링");
+
+        return (
+          <React.Fragment>
+            <div>
+              {first} 곱하기 {second} 는 ?
+            </div>
+            <form onSubmit={onSubmitForm}>
+              <input ref={inputRef} value={value} onChange={onChangeInput} />
+              <button id="button" className="">
+                입력!
+              </button>
+            </form>
+            <div>{result}</div>
+          </React.Fragment>
+        );
+      };
+    </script>
+    <script type="text/babel">
+      ReactDOM.render(<GuGuDan />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
